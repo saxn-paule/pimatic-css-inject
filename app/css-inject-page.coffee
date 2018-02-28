@@ -1,6 +1,6 @@
 $(document).on( "templateinit", (event) ->
 # define the item class
-	class tvProgramDeviceItem extends pimatic.DeviceItem
+	class cssInjectDeviceItem extends pimatic.DeviceItem
 		constructor: (templData, @device) ->
 			@id = @device.id
 			super(templData,@device)
@@ -8,15 +8,17 @@ $(document).on( "templateinit", (event) ->
 		afterRender: (elements) ->
 			super(elements)
 
-			renderSchedule = (newval) =>
-				$("#"+@id+"_tv_program_placeholder").html(newval)
+			updateCss = (css) =>
+				console.log("updateing CSS....")
+				cssObj = JSON.parse(css)
+				$(cssObj.selector).css(cssObj.attribute, cssObj.value)
 
-			renderSchedule(@getAttribute('schedule').value())
+			updateCss(@getAttribute('css').value())
 
-			@getAttribute('schedule').value.subscribe(renderSchedule)
+			@getAttribute('css').value.subscribe(updateCss)
 
 			return
 			
 	# register the item-class
-	pimatic.templateClasses['tvProgram'] = tvProgramDeviceItem
+	pimatic.templateClasses['cssInject'] = cssInjectDeviceItem
 )

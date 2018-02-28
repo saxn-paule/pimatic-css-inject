@@ -4,6 +4,7 @@ module.exports = (env) ->
   assert = env.require 'cassert'
   M = env.matcher
   t = env.require('decl-api').types
+  cssObj = ""
 
   class CssInjectPlugin extends env.plugins.Plugin
 
@@ -29,13 +30,39 @@ module.exports = (env) ->
   class CssInjectDevice extends env.devices.Device
     template: 'cssInject'
 
+    attributes:
+      css:
+        description: 'the CSS attribute'
+        type: t.string
+
     constructor: (@config, @plugin) ->
       @id = @config.id
       @name = @config.name
+      @css = ""
+
+      @reLoadCss()
+
+      @timerId = setInterval ( =>
+        @reLoadCss()
+      ), 3000
 
       super()
 
+    getCss: -> Promise.resolve(@css)
+
+    setCss: (value) ->
+      if @css is value then return
+      @css = value
+
+    reLoadCss: ->
+      env.logger.info "setting css to"
+      env.logger.info cssObj
+      @css = JSON.stringify(cssObj)
+
     destroy: () ->
+      if @timerId?
+        clearInterval @timerId
+        @timerId = null
       super()
 
   ####### ACTION PROVIDER #######
@@ -84,13 +111,17 @@ module.exports = (env) ->
   class InjectCssActionHandler extends env.actions.ActionHandler
     constructor: (@framework, @value, @attribute, @selector) ->
 
-    executeAction: (simulate) ->
+    executeAction: (simulate) =>
       return (
+        temp = JSON.parse(cssObj)
+        temp.attribute = @attribute
+        temp.val = @value
+        temp.selector = @selector
+
+        cssObj = JSON.stringify(temp)
+
         Promise.resolve __('added CSS ' + @attribute + ': ' + @value + ' to ' + @selector)
       )
-
-
-
 
 
   return new CssInjectPlugin
