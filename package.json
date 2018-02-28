@@ -1,0 +1,30 @@
+{ "name": "pimatic-css-inject",
+  "description": "CSS inject plugin",
+  "author": "Paul Schmidt",
+  "license": "MIT",
+  "main": "css-inject",
+  "files": [
+    "css-inject.coffee",
+    "README.md",
+    "css-inject-config-schema.coffee",
+    "device-config-schema.coffee",
+    "app"
+  ],
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/saxn-paule/pimatic-css-inject.git"
+  },
+  "bugs": {
+    "url": "https://github.com/saxn-paule/pimatic-css-inject/issues"
+  },
+  "configSchema": "css-inject-config-schema.coffee",
+  "dependencies": {},
+  "peerDependencies": {
+    "pimatic": "0.9.*"
+  },
+  "engines": {
+    "node": ">0.8.x",
+    "npm": ">1.1.x"
+  }
+}
