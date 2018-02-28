@@ -9,9 +9,14 @@ $(document).on( "templateinit", (event) ->
 			super(elements)
 
 			updateCss = (css) =>
-				console.log("updateing CSS....")
-				cssObj = JSON.parse(css)
-				$(cssObj.selector).css(cssObj.attribute, cssObj.value)
+				console.log("updating CSS....")
+				if css and css.length > 0
+					cssObj = JSON.parse(css)
+					attribute = cssObj.attribute[0].replace(/"/g, "")
+					val = cssObj.val[0].replace(/"/g, "")
+					selector = cssObj.selector[0].replace(/"/g, "")
+
+					$(selector).css(attribute, val)
 
 			updateCss(@getAttribute('css').value())
 

@@ -44,7 +44,7 @@ module.exports = (env) ->
 
       @timerId = setInterval ( =>
         @reLoadCss()
-      ), 3000
+      ), 2000
 
       super()
 
@@ -53,11 +53,10 @@ module.exports = (env) ->
     setCss: (value) ->
       if @css is value then return
       @css = value
+      @emit 'css', value
 
     reLoadCss: ->
-      env.logger.info "setting css to"
-      env.logger.info cssObj
-      @css = JSON.stringify(cssObj)
+      @setCss(cssObj)
 
     destroy: () ->
       if @timerId?
@@ -113,7 +112,8 @@ module.exports = (env) ->
 
     executeAction: (simulate) =>
       return (
-        temp = JSON.parse(cssObj)
+
+        temp = {}
         temp.attribute = @attribute
         temp.val = @value
         temp.selector = @selector
