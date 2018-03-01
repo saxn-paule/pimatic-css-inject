@@ -10,13 +10,17 @@ $(document).on( "templateinit", (event) ->
 
 			updateCss = (css) =>
 				console.log("updating CSS....")
-				if css and css.length > 0
-					cssObj = JSON.parse(css)
-					attribute = cssObj.attribute[0].replace(/"/g, "")
-					val = cssObj.val[0].replace(/"/g, "")
-					selector = cssObj.selector[0].replace(/"/g, "")
+				console.log(css)
 
-					$(selector).css(attribute, val)
+				if css and css.length > 2
+					cssObj = JSON.parse(css)
+
+					for key of cssObj
+						selector = key.split("|_|_|")[0].replace(/"/g, "")
+						attribute = key.split("|_|_|")[1].replace(/"/g, "")
+						val = cssObj[key][0].replace(/"/g, "")
+
+						$(selector).css(attribute, val)
 
 			updateCss(@getAttribute('css').value())
 

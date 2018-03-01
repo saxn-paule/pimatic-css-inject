@@ -5,6 +5,7 @@ module.exports = (env) ->
   M = env.matcher
   t = env.require('decl-api').types
   cssObj = ""
+  separator = "|_|_|"
 
   class CssInjectPlugin extends env.plugins.Plugin
 
@@ -113,12 +114,15 @@ module.exports = (env) ->
     executeAction: (simulate) =>
       return (
 
-        temp = {}
-        temp.attribute = @attribute
-        temp.val = @value
-        temp.selector = @selector
+        if cssObj.length is 0
+          cssObj = "{}"
 
-        cssObj = JSON.stringify(temp)
+        tempObj = JSON.parse(cssObj)
+
+        key = @selector + separator + @attribute
+        tempObj[key] = @value
+
+        cssObj = JSON.stringify(tempObj)
 
         Promise.resolve __('added CSS ' + @attribute + ': ' + @value + ' to ' + @selector)
       )
