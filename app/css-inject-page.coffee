@@ -20,7 +20,17 @@ $(document).on( "templateinit", (event) ->
 						attribute = key.split("|_|_|")[1].replace(/"/g, "")
 						val = cssObj[key][0].replace(/"/g, "")
 
-						$(selector).css(attribute, val)
+						newStyle = selector + "{ " + attribute + ": " + val + "; }"
+
+						style = document.createElement('style')
+						style.type = 'text/css'
+
+						if style.styleSheet
+								style.styleSheet.cssText = newStyle
+						else
+							style.appendChild document.createTextNode(newStyle)
+
+						document.getElementsByTagName('head')[0].appendChild(style)
 
 			updateCss(@getAttribute('css').value())
 
