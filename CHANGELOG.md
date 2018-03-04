@@ -1,3 +1,6 @@
+**version 0.1.1** *released 2018-03-04*
+* removed old injected styling definition if new one is applied to keep head element as small as needed
+
 **version 0.1.0** *released 2018-03-02*
 * inject changes to global css to be independent from DOM changes
 * use plain javascript

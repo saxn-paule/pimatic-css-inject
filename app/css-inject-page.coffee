@@ -20,7 +20,7 @@ $(document).on( "templateinit", (event) ->
 						attribute = key.split("|_|_|")[1].replace(/"/g, "")
 						val = cssObj[key][0].replace(/"/g, "")
 
-						newStyle = selector + "{ " + attribute + ": " + val + "; }"
+						newStyle = selector + " { " + attribute + ": " + val + "; }"
 
 						style = document.createElement('style')
 						style.type = 'text/css'
@@ -29,6 +29,10 @@ $(document).on( "templateinit", (event) ->
 								style.styleSheet.cssText = newStyle
 						else
 							style.appendChild document.createTextNode(newStyle)
+
+						#remove old injected style
+						oldStyle = "style:contains('" + selector + "'):contains('" + attribute + "')"
+						$(oldStyle).remove()
 
 						document.getElementsByTagName('head')[0].appendChild(style)
 
