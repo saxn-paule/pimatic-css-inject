@@ -1,6 +1,6 @@
 # tv program configuration options
 module.exports = {
-	title: "tvProgram"
+	title: "cssInject"
 	CssInjectDevice :{
 		title: "Plugin Properties"
 		type: "object"
