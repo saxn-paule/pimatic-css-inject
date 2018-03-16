@@ -9,9 +9,6 @@ $(document).on( "templateinit", (event) ->
 			super(elements)
 
 			updateCss = (css) =>
-				console.log("updating CSS....")
-				console.log(css)
-
 				if css and css.length > 2
 					cssObj = JSON.parse(css)
 
