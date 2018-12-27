@@ -36,9 +36,9 @@ module.exports = (env) ->
         description: 'the CSS attribute'
         type: t.string
 
-    constructor: (@config, @plugin) ->
-      @id = @config.id
-      @name = @config.name
+    constructor: (config, plugin) ->
+      super(config.id, config.name)
+      @config = config
       @css = ""
 
       @reLoadCss()
@@ -46,8 +46,6 @@ module.exports = (env) ->
       @timerId = setInterval ( =>
         @reLoadCss()
       ), 2000
-
-      super()
 
     getCss: -> Promise.resolve(@css)
 
@@ -67,7 +65,8 @@ module.exports = (env) ->
 
   ####### ACTION PROVIDER #######
   class InjectCssActionProvider extends env.actions.ActionProvider
-    constructor: (@framework) ->
+    constructor: (framework) ->
+      super()
 
     parseAction: (input, context) =>
 
@@ -109,11 +108,15 @@ module.exports = (env) ->
 
   ####### ACTION HANDLER ######
   class InjectCssActionHandler extends env.actions.ActionHandler
-    constructor: (@framework, @value, @attribute, @selector) ->
+    constructor: (framework, value, attribute, selector) ->
+      super()
+      @framework = framework
+      @value = value
+      @attribute = attribute
+      @selector = selector
 
     executeAction: (simulate) =>
       return (
-
         if cssObj.length is 0
           cssObj = "{}"
 
@@ -126,6 +129,5 @@ module.exports = (env) ->
 
         Promise.resolve __('added CSS ' + @attribute + ': ' + @value + ' to ' + @selector)
       )
-
 
   return new CssInjectPlugin
