@@ -1,4 +1,4 @@
-# tv program configuration options
+# css inject configuration options
 module.exports = {
 	title: "cssInject"
 	CssInjectDevice :{

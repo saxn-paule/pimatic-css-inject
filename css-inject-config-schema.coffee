@@ -1,6 +1,6 @@
 # CSS inject configuration options
 module.exports = {
-	title: "tv program config options"
+	title: "css inject config options"
 	type: "object"
 	properties: {}
 }
